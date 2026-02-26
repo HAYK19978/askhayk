@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+main {
+  padding-top: 4rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* LIGHT THEME */
+@theme {
+  --color-bg: 255 255 255;
+  --color-surface: 248 248 248;
+  --color-border: 230 230 230;
+  --color-text: 20 20 20;
+  --color-text-muted: 90 90 90;
+
+  --radius: 14px;
+}
+
+/* DARK THEME */
+.dark {
+  --color-bg: 12 12 14;
+  --color-surface: 20 20 24;
+  --color-border: 38 38 45;
+  --color-text: 235 235 235;
+  --color-text-muted: 150 150 160;
+}
+
+body {
+  background: rgb(var(--color-bg));
+  color: rgb(var(--color-text));
+}
+
+.container-custom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+/* ARTICLE TYPOGRAPHY SYSTEM */
+
+.article-content h1 {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 2rem;
+}
+
+.article-content h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-top: 4rem;
+  margin-bottom: 1.25rem;
+}
+
+.article-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.article-content p {
+  font-size: 17px;
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+  color: rgb(var(--color-text));
+}
+
+.article-content strong {
+  font-weight: 600;
+}
+
+.article-content ul {
+  margin: 1.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.article-content li {
+  margin-bottom: 0.75rem;
+  color: rgb(var(--color-text));
+}
+
+.article-content blockquote {
+  border-left: 3px solid rgb(var(--color-border));
+  padding-left: 1rem;
+  margin: 2rem 0;
+  color: rgb(var(--color-text-muted));
+}
+
+.article-content code {
+  background: rgb(var(--color-surface));
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  font-size: 14px;
+}
+/* ANCHOR OFFSET */
+.article-content h2,
+.article-content h3 {
+  scroll-margin-top: 100px;
+  position: relative;
+}
+
+.article-content h2::after {
+  content: "#";
+  font-size: 14px;
+  position: absolute;
+  left: -24px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.article-content h2:hover::after {
+  opacity: 0.4;
+}
