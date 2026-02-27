@@ -44,8 +44,8 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-10">
-            {navItem("/vpn", "Privacy")}
-            {navItem("/hosting", "Infrastructure")}
+            {navItem("/privacy", "Privacy")}
+            {navItem("/infrastructure", "Infrastructure")}
             {navItem("/finance", "Finance")}
           </nav>
 

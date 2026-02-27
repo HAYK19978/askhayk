@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
@@ -21,6 +22,7 @@ export default function RootLayout({
           enableSystem={false}
         >
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
