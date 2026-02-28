@@ -1,59 +1,42 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import ThemeToggle from "../theme/ThemeToggle";
 
 export default function Header() {
-  const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { theme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "auto";
-  }, [mobileOpen]);
-
-  const navItem = (href: string, label: string, mobile = false) => {
-    const active = pathname === href;
-
-    return (
-      <Link
-        href={href}
-        onClick={() => mobile && setMobileOpen(false)}
-        className={`text-lg transition-colors ${
-          active ? "font-semibold" : "opacity-70 hover:opacity-100"
-        }`}
-      >
-        {label}
-      </Link>
-    );
-  };
+  const isDark = theme === "dark";
 
   return (
     <>
       {/* HEADER */}
-      <header className="sticky top-0 z-40 border-b ">
-        <div className="container-custom h-20 flex items-center justify-between">
-          <Link href="/" className="text-xl font-semibold">
-            Hayk 
+      <header
+        className="sticky top-0 z-50 border-b"
+        style={{
+          backgroundColor: isDark ? "#0a0a0a" : "#ffffff",
+          borderColor: isDark ? "#262626" : "#e5e5e5",
+        }}
+      >
+        <div className="container-custom flex items-center justify-between h-16">
+          <Link href="/" className="font-semibold text-lg">
+            Hayk Framework
           </Link>
 
-          <nav className="hidden md:flex items-center gap-10">
-            {navItem("/privacy", "Privacy")}
-            {navItem("/infrastructure", "Infrastructure")}
-            {navItem("/finance", "Finance")}
-          </nav>
+          <div className="hidden md:flex items-center gap-8 text-sm">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/infrastructure">Infrastructure</Link>
+            <Link href="/finance">Finance</Link>
+          </div>
 
           <div className="flex items-center gap-4">
             <ThemeToggle />
 
             <button
-              onClick={() => setMobileOpen(true)}
+              onClick={() => setOpen(true)}
               className="md:hidden text-2xl"
             >
               ☰
@@ -62,37 +45,49 @@ export default function Header() {
         </div>
       </header>
 
-      {/* OVERLAY */}
-      <div
-        className={`fixed inset-0 z-40 transition-opacity duration-300 ${
-          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        } bg-black/40`}
-        onClick={() => setMobileOpen(false)}
-      />
+      {/* MOBILE MENU */}
+      {open && (
+        <div className="fixed inset-0 z-50">
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setOpen(false)}
+          />
 
-      {/* MOBILE PANEL */}
-      <div
-        className={`fixed top-0 right-0 h-full w-80 z-50 transform transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        } bg-white dark:bg-black border-l border-neutral-200 dark:border-neutral-800`}
-      >
-        <button
-          onClick={() => setMobileOpen(false)}
-          className="absolute top-6 right-6 text-2xl"
-        >
-          ✕
-        </button>
+          {/* Panel */}
+          <div
+            className="absolute right-0 top-0 h-full w-80 shadow-2xl p-8"
+            style={{
+              backgroundColor: isDark ? "#0a0a0a" : "#ffffff",
+              borderLeft: `1px solid ${
+                isDark ? "#262626" : "#e5e5e5"
+              }`,
+            }}
+          >
+            <div className="flex justify-between items-center mb-10">
+              <span className="font-semibold">Navigation</span>
+              <button
+                onClick={() => setOpen(false)}
+                className="text-2xl"
+              >
+                ✕
+              </button>
+            </div>
 
-        <div className="p-8 pt-24 flex flex-col gap-8">
-          <div className="text-xs uppercase tracking-wide opacity-50">
-            Navigation
+            <nav className="flex flex-col gap-8 text-xl">
+              <Link href="/privacy" onClick={() => setOpen(false)}>
+                Privacy
+              </Link>
+              <Link href="/infrastructure" onClick={() => setOpen(false)}>
+                Infrastructure
+              </Link>
+              <Link href="/finance" onClick={() => setOpen(false)}>
+                Finance
+              </Link>
+            </nav>
           </div>
-
-          {navItem("/vpn", "Privacy", true)}
-          {navItem("/hosting", "Infrastructure", true)}
-          {navItem("/finance", "Finance", true)}
         </div>
-      </div>
+      )}
     </>
   );
 }
